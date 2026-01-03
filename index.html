@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -142,6 +143,27 @@ h1 {
     transform: scale(1.08);
   }
 }
+
+/* زر الموسيقى */
+#music-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 0 15px gold;
+  transition: 0.3s;
+}
+#music-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px gold;
+}
 </style>
 </head>
 
@@ -212,11 +234,43 @@ h1 {
 
 </div>
 
+<!-- موسيقى -->
+<audio id="bg-music" loop>
+  <source src="king-trap.mp3" type="audio/mpeg">
+  المتصفح لا يدعم تشغيل الصوت.
+</audio>
+
+<!-- زر كتم / تشغيل -->
+<button id="music-toggle">🔊 تشغيل الموسيقى</button>
+
 <script>
+// عداد الزوار
 let visits = localStorage.getItem("visits") || 0;
 visits++;
 localStorage.setItem("visits", visits);
 document.getElementById("visits").textContent = visits;
+
+// الموسيقى + زر التحكم
+const music = document.getElementById("bg-music");
+const toggle = document.getElementById("music-toggle");
+
+// تشغيل تلقائي عند فتح الصفحة
+window.addEventListener("load", () => {
+  music.play().catch(() => {
+    toggle.textContent = "🔇 اضغط لتشغيل الموسيقى";
+  });
+});
+
+// زر كتم / تشغيل
+toggle.addEventListener("click", () => {
+  if(music.paused){
+    music.play();
+    toggle.textContent = "🔊 كتم الصوت";
+  } else {
+    music.pause();
+    toggle.textContent = "🔇 تشغيل الموسيقى";
+  }
+});
 </script>
 
 </body>
